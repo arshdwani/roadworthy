@@ -1,0 +1,181 @@
+modules:
+  jira:globalPage:
+    - key: roadworthy-board
+      resource: board
+      resolver:
+        function: resolver
+      render: native
+      title: Roadworthy
+      icon: resource:static;icon.svg
+  jira:issueContext:
+    - key: roadworthy-context
+      resource: panel
+      resolver:
+        function: resolver
+      render: native
+      title: Roadworthy
+      label: Recall
+      description: The safety recall on this request, the dealer visit and the repair
+        record.
+      dynamicProperties:
+        function: context-status
+      # Only on requests Roadworthy opened (they carry the "roadworthy" issue property).
+      displayConditions:
+        entityPropertyExists:
+          entity: issue
+          propertyKey: roadworthy
+  jira:issuePanel:
+    - key: roadworthy-panel
+      resource: panel
+      resolver:
+        function: resolver
+      render: native
+      title: Recall remediation
+      icon: resource:static;icon.svg
+      displayConditions:
+        entityPropertyExists:
+          entity: issue
+          propertyKey: roadworthy
+  scheduledTrigger:
+    - key: roadworthy-scan
+      function: on-schedule
+      interval: hour
+  rovo:agent:
+    - key: roadworthy-agent
+      name: Roadworthy
+      description: Tracks manufacturer safety recalls across your fleet and tells you
+        which vehicles are safe to dispatch today.
+      icon: resource:static;icon.svg
+      prompt: resource:prompts;agent.md
+      conversationStarters:
+        - Which vans are safe to dispatch today?
+        - Open recalls at depot North
+        - Which vehicles must not be driven?
+        - Mark a recall remedied
+      actions:
+        - get-dispatchable
+        - get-open-recalls
+        - mark-remedied
+      skills:
+        - recall-triage
+  rovo:skill:
+    - key: recall-triage
+      source:
+        dir: skills/recall-triage
+      dependencies:
+        tools:
+          - get-dispatchable
+          - get-open-recalls
+  action:
+    - key: get-dispatchable
+      name: Get dispatchable vehicles
+      function: action-dispatchable
+      actionVerb: GET
+      description: Lists the vehicles that are safe to dispatch or rent today and the
+        ones that are not (Park It, do not rent, open recalls), optionally for
+        one depot.
+      inputs:
+        depot:
+          title: Depot
+          type: string
+          required: false
+          description: Depot name, e.g. North. Leave empty for the whole fleet.
+    - key: get-open-recalls
+      name: Get open recalls
+      function: action-open-recalls
+      actionVerb: GET
+      description: Lists open safety recall remediation requests with vehicle, NHTSA
+        campaign, severity, due date and state, optionally for one depot.
+      inputs:
+        depot:
+          title: Depot
+          type: string
+          required: false
+          description: Depot name, e.g. North. Leave empty for the whole fleet.
+    - key: mark-remedied
+      name: Mark recall remedied
+      function: action-mark-remedied
+      actionVerb: UPDATE
+      description: Closes a recall request as remedied with the dealer repair order
+        number, repair date and odometer, and updates the vehicle status in
+        Assets.
+      inputs:
+        issueKey:
+          title: Request key
+          type: string
+          required: true
+          description: The recall request key, e.g. ABC-123.
+        repairOrder:
+          title: Repair order number
+          type: string
+          required: true
+          description: The dealer's repair order number.
+        date:
+          title: Repair date
+          type: string
+          required: false
+          description: Date of the repair as YYYY-MM-DD. Defaults to today.
+        odometer:
+          title: Odometer
+          type: string
+          required: false
+          description: Odometer reading in miles at the repair.
+  function:
+    - key: resolver
+      handler: index.handler
+    - key: on-schedule
+      handler: index.onSchedule
+      timeoutSeconds: 300
+    - key: context-status
+      handler: index.contextStatus
+    - key: action-dispatchable
+      handler: index.dispatchable
+    - key: action-open-recalls
+      handler: index.openRecalls
+    - key: action-mark-remedied
+      handler: index.markRemedied
+resources:
+  - key: board
+    path: src/frontend/board.jsx
+  - key: panel
+    path: src/frontend/panel.jsx
+  - key: static
+    path: static
+  - key: prompts
+    path: prompts
+permissions:
+  scopes:
+    - read:jira-work
+    - write:jira-work
+    - read:jira-user
+    - storage:app
+    - read:servicedesk-request
+    - write:servicedesk-request
+    - read:servicemanagement-insight-objects
+    - read:cmdb-object:jira
+    - write:cmdb-object:jira
+    - delete:cmdb-object:jira
+    - read:cmdb-schema:jira
+    - write:cmdb-schema:jira
+    - read:cmdb-type:jira
+    - write:cmdb-type:jira
+    - read:cmdb-attribute:jira
+    - write:cmdb-attribute:jira
+    - read:cmdb-icon:jira
+    - read:requesttype:jira-service-management
+    - write:requesttype:jira-service-management
+  external:
+    fetch:
+      backend:
+        # VINs only (DecodeVinValuesBatch).
+        - address: https://vpic.nhtsa.dot.gov
+          inScopeEUD: true
+        # Make, model and model year only (recallsByVehicle, products/vehicle/models).
+        - address: https://api.nhtsa.gov
+          inScopeEUD: false
+app:
+  runtime:
+    name: nodejs24.x
+    memoryMB: 256
+    architecture: arm64
+  id: ari:cloud:ecosystem::app/95bd97da-7ca5-4151-8ec8-3922ea4bc438

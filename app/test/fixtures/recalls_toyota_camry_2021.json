@@ -1,0 +1,22 @@
+{
+ "Count": 1,
+ "Message": "Results returned successfully",
+ "results": [
+  {
+   "Manufacturer": "Toyota Motor Engineering & Manufacturing",
+   "NHTSACampaignNumber": "23V865000",
+   "parkIt": false,
+   "parkOutSide": false,
+   "overTheAirUpdate": false,
+   "ReportReceivedDate": "20/12/2023",
+   "Component": "AIR BAGS:SENSOR:OCCUPANT CLASSIFICATION",
+   "Summary": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020-2021 Avalon, Avalon Hybrid, Corolla, Highlander, Highlander Hybrid, RAV4, RAV4 Hybrid, Lexus ES350, Lexus RX350, Lexus RX450H, 2021 Sienna Hybrid, Lexus ES250, 2020-2022 Camry, Camry Hybrid, and ES300H vehicles.  A short circuit may develop in the Occupant Classification System (OCS) sensor, preventing the front passenger air bag from deploying.",
+   "Consequence": "An air bag that does not deploy during a crash increases the risk of injury.",
+   "Remedy": "Dealers will inspect and replace the sensor as necessary, free of charge.  Interim letters notifying owners of the safety risk were mailed in February 2024. Some final remedy owner letters were mailed October 31, 2024. Letters will continue to be mailed in phases through January 2026. Owners may contact Toyota customer service at 1-800-331-4331.  Toyota's number for this recall is 23TB15/23TA15 Lexus 23LB03/23LA03.",
+   "Notes": "Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.nhtsa.gov.",
+   "ModelYear": "2021",
+   "Make": "TOYOTA",
+   "Model": "CAMRY"
+  }
+ ]
+}

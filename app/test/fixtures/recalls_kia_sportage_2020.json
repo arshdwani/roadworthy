@@ -1,0 +1,38 @@
+{
+ "Count": 2,
+ "Message": "Results returned successfully",
+ "results": [
+  {
+   "Manufacturer": "Kia Motors America",
+   "NHTSACampaignNumber": "21V137000",
+   "parkIt": false,
+   "parkOutSide": true,
+   "overTheAirUpdate": false,
+   "ReportReceivedDate": "04/03/2021",
+   "Component": "SERVICE BRAKES, HYDRAULIC:ANTILOCK/TRACTION CONTROL/ELECTRONIC LIMITED SLIP:CONTROL UNIT/MODULE",
+   "Summary": "Kia Motors America (Kia) is recalling certain 2017-2021 Sportage and Cadenza vehicles.  The electrical circuit in the Hydraulic Electronic Control Unit (HECU) may short-circuit, which can cause a fire in the engine compartment.",
+   "Consequence": "An engine compartment fire can increase the risk of injury.",
+   "Remedy": "Owners are advised to park outside and away from structures as a precaution until the recall repair is complete.  Kia will notify owners, and dealers will replace certain fuses in the electrical junction box.  Vehicles equipped with an electronic parking brake (EPB) will also receive a HECU software update.  Repairs will be performed free of charge.  The recall began on April 30, 2021.  Owners may contact Kia customer service at 1-800-333-4542.  Kia's number for this recall is SC206.",
+   "Notes": "Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.safercar.gov.",
+   "ModelYear": "2020",
+   "Make": "KIA",
+   "Model": "SPORTAGE"
+  },
+  {
+   "Manufacturer": "Kia America, Inc.",
+   "NHTSACampaignNumber": "22V703000",
+   "parkIt": false,
+   "parkOutSide": true,
+   "overTheAirUpdate": false,
+   "ReportReceivedDate": "19/09/2022",
+   "Component": "TRAILER HITCHES",
+   "Summary": "Kia America, Inc. (Kia) is recalling certain 2016-2022 Sorento, 2021-2022 Sorento Hybrid (HEV), 2022-2023 Sorento Plug-In Hybrid (PHEV), and 2017-2022 Sportage vehicles equipped with a tow hitch harness installed as original equipment, or purchased as an accessory through a Kia dealership.  Debris and moisture accumulation on the tow hitch harness module printed circuit board (PCB) may cause an electrical short, which can result in a fire.",
+   "Consequence": "A fire while parked or driving can increase the risk of injury.",
+   "Remedy": "Owners are advised to park outside and away from structures until the recall repair is complete.  Dealers will inspect the vehicle, and, as necessary, replace the fuse and/or tow hitch harness module, free of charge.  Owner notification letters were mailed August 11, 2023.  Owners may contact Kia customer service at 1-800-333-4542.  Kia's number for this recall is SC249.",
+   "Notes": "Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.nhtsa.gov.",
+   "ModelYear": "2020",
+   "Make": "KIA",
+   "Model": "SPORTAGE"
+  }
+ ]
+}
