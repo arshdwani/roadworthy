@@ -179,7 +179,7 @@ const Panel = () => {
           {c.history.map((h) => (
             <Inline key={`${h.at}-${h.what}`} space="space.100" alignBlock="center" shouldWrap>
               <Text>{fmtWhen(h.at)}</Text>
-              {h.by ? <User accountId={h.by} /> : <Text>Roadworthy</Text>}
+              {h.by ? <User accountId={h.by} /> : <Text>{h.byRemoved ? 'Former user' : 'Roadworthy'}</Text>}
               <Text>{h.detail}</Text>
             </Inline>
           ))}

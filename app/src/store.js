@@ -79,6 +79,7 @@ export const getCheck = (key) => kvs.get('check:' + safeKey(key));
 export const saveCheck = (r) => kvs.set('check:' + safeKey(r.key), r);
 export const deleteCheck = (key) => kvs.delete('check:' + safeKey(key));
 export const listDismissed = () => listPrefix('dismissed:');
+export const putDismissed = (record) => kvs.set('dismissed:' + safeKey(record.key), record);
 export const saveDismissed = (key, by) => kvs.set('dismissed:' + safeKey(key), { key, by: by || null, at: Date.now() });
 
 export const listClaims = async () => {

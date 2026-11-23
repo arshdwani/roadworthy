@@ -280,3 +280,27 @@ test('pasted VIN with no recall-history date: older campaigns go to "Check once"
   const verified = planCases({ vehicles: [{ ...fresh, verifiedTo: '2026-03-01' }], recallsByKey, today: '2026-11-21' });
   assert.equal(verified.checkOnce.length, 0);
 });
+
+// ---- Personal data -----------------------------------------------------------------------------------------
+import { collectAccounts, scrubCase, scrubBy } from '../src/core/privacy.js';
+
+test('personal data: collect account IDs with their last update; scrub closed ones', () => {
+  const cases = [
+    { key: 'A', history: [{ by: 'u1', at: Date.parse('2026-11-01T00:00:00Z') }, { by: 'u2', at: Date.parse('2026-11-03T00:00:00Z') }, { by: null, at: 1 }] },
+    { key: 'B', history: [{ by: 'u1', at: Date.parse('2026-11-05T00:00:00Z') }] },
+  ];
+  const acc = collectAccounts({ cases, dismissed: [{ key: 'C', by: 'u3', at: Date.parse('2026-11-02T00:00:00Z') }], job: { by: 'u2', startedAt: Date.parse('2026-11-04T00:00:00Z') } });
+  assert.deepEqual(acc, [
+    { accountId: 'u1', updatedAt: '2026-11-05T00:00:00.000Z' },
+    { accountId: 'u2', updatedAt: '2026-11-04T00:00:00.000Z' },
+    { accountId: 'u3', updatedAt: '2026-11-02T00:00:00.000Z' },
+  ]);
+  const closed = new Set(['u1']);
+  const a = scrubCase(cases[0], closed);
+  assert.deepEqual(a.history.map((h) => h.by), [null, 'u2', null]);
+  assert.equal(a.history[0].byRemoved, true);
+  assert.equal(scrubCase({ history: [{ by: 'u2' }] }, closed), null);
+  assert.deepEqual(scrubBy({ key: 'C', by: 'u1' }, closed), { key: 'C', by: null, byRemoved: true });
+  assert.equal(scrubBy({ key: 'C', by: 'u3' }, closed), null);
+  assert.deepEqual(collectAccounts({}), []);
+});

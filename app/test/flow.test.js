@@ -12,6 +12,7 @@ mock.module('@forge/api', {
     asUser: () => ({ requestJira: site.requestJira('user') }),
     route,
     fetch: site.fetch,
+    privacy: { reportPersonalData: async (accounts) => { site.reported = accounts; return accounts.filter((a) => a.accountId === 'u1').map((a) => ({ accountId: a.accountId, status: 'closed' })); } },
   },
 });
 mock.module('@forge/kvs', { exports: fakeKvs(site.kv) });
@@ -204,6 +205,17 @@ test('a ruled-out match can still be opened by a person', async () => {
   assert.match(c.history[0].detail, /overriding the unlikely verdict/);
   assert.match(JSON.stringify(site.issues.get(r.issueKey).fields.description), /Unlikely/);
   await assert.rejects(svc.openFromReview({ key: review.key }), /no longer in the review list/);
+});
+
+test('personal data reporting: stored account IDs are reported; closed accounts are erased from audit trails', async () => {
+  const { runPrivacyReport } = await import('../src/privacy.js');
+  const r = await runPrivacyReport();
+  assert.ok(site.reported.some((a) => a.accountId === 'u1' && /^\d{4}-\d{2}-\d{2}T/.test(a.updatedAt)));
+  assert.equal(r.closed, 1);
+  assert.ok(r.scrubbed >= 1);
+  const all = (await store.listCases()).flatMap((c) => c.history || []);
+  assert.equal(all.filter((h) => h.by === 'u1').length, 0);
+  assert.ok(all.some((h) => h.byRemoved));
 });
 
 test('remove sample: deletes sample vehicles, their requests and records; keeps the rest', async () => {

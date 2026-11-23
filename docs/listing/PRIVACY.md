@@ -1,6 +1,6 @@
 # Roadworthy: privacy policy
 
-_Last updated: 22 November 2026_
+_Last updated: 23 November 2026_
 
 Roadworthy is a Forge app for Jira Service Management. It runs on Atlassian Forge. It calls two public, free US
 government APIs run by the National Highway Traffic Safety Administration (NHTSA), and sends them only the data
@@ -25,6 +25,9 @@ In Forge hosted storage (Forge Key-Value Store), which Atlassian operates for th
 - **Remediation records:** the campaign and vehicle, the Jira request key, due date, severity, applicability
   verdict and reasons, the dealer appointment, the repair order number, repair date and odometer, and an audit
   trail with the **Atlassian account IDs** of the people who acted. Names are looked up at display time and not stored.
+- **Account IDs and closed accounts:** every week Roadworthy reports the account IDs it stores to Atlassian through
+  the Forge personal data reporting API. When Atlassian reports an account as closed, Roadworthy removes that
+  account ID from its audit trails and records (the entry then shows "Former user").
 - **Settings:** the service project, request type, optional Assets field, and fleet policy switches.
 
 In your Jira site itself, Roadworthy creates the "Fleet" Assets schema and vehicle objects (when you connect Assets),

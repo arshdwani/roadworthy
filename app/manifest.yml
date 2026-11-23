@@ -40,6 +40,9 @@ modules:
     - key: roadworthy-scan
       function: on-schedule
       interval: hour
+    - key: roadworthy-privacy
+      function: on-privacy
+      interval: week
   rovo:agent:
     - key: roadworthy-agent
       name: Roadworthy
@@ -125,6 +128,9 @@ modules:
       handler: index.handler
     - key: on-schedule
       handler: index.onSchedule
+      timeoutSeconds: 300
+    - key: on-privacy
+      handler: index.onPrivacy
       timeoutSeconds: 300
     - key: context-status
       handler: index.contextStatus
